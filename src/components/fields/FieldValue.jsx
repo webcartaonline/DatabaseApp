@@ -1,6 +1,7 @@
 import CheckboxValue from "./CheckboxValue.jsx";
 import DateValue from "./DateValue.jsx";
 import LinkedValue from "./LinkedValue.jsx";
+import MenuValue from "./MenuValue.jsx";
 import NoteValue from "./NoteValue.jsx";
 import RatingValue from "./RatingValue.jsx";
 import StatusValue from "./StatusValue.jsx";
@@ -19,6 +20,8 @@ export default function FieldValue({ field, onChange }) {
       return <DateValue field={field} onChange={onChange} />;
     case "checkbox":
       return <CheckboxValue field={field} onChange={onChange} />;
+    case "menu":
+      return <MenuValue field={field} onChange={onChange} />;
     case "rating":
       return <RatingValue field={field} onChange={onChange} />;
     case "status":

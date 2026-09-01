@@ -1,6 +1,21 @@
 import { uid } from "./id.js";
 import { DEFAULT_STATUSES, typeOf } from "../constants/fieldTypes.js";
 
+/** El valor vacio se copia: los tipos con objeto no deben compartir referencia. */
+const emptyValue = (type) =>
+  type.empty && typeof type.empty === "object" ? { ...type.empty } : type.empty;
+
+/**
+ * El campo "Carta en Maps" guarda { on, kind }: el interruptor dice si el
+ * negocio tiene carta y kind que tipo de carta es. Tolera valores sueltos.
+ */
+export function menuValue(value) {
+  if (value && typeof value === "object") {
+    return { on: value.on === true, kind: value.kind || "" };
+  }
+  return { on: value === true, kind: "" };
+}
+
 /** Crea un campo vacio del tipo indicado. */
 export function createField(typeId, label, options) {
   const type = typeOf(typeId);
@@ -8,17 +23,19 @@ export function createField(typeId, label, options) {
     id: uid(),
     type: type.id,
     label: label || type.label,
-    value: type.empty,
+    value: emptyValue(type),
   };
 
   if (type.id === "status") {
     field.options = options && options.length ? options : DEFAULT_STATUSES;
+  } else if (type.options) {
+    field.options = options && options.length ? options : type.options;
   }
 
   return field;
 }
 
-/** Un negocio nuevo nace con direccion y estado; el resto se anade a mano. */
+/** Un negocio nuevo nace con direccion, estado y carta; el resto se anade a mano. */
 export function createLead(name, address) {
   const now = Date.now();
   return {
@@ -29,6 +46,7 @@ export function createLead(name, address) {
     fields: [
       { ...createField("address", "Direccion"), value: address.trim() },
       { ...createField("status", "Estado"), value: "Nuevo" },
+      createField("menu", "Carta en Maps"),
     ],
   };
 }
@@ -36,8 +54,18 @@ export function createLead(name, address) {
 /** Indica si un campo tiene un valor real, segun su tipo. */
 export function isFilled(field) {
   if (field.type === "checkbox") return field.value === true;
+  if (field.type === "menu") return menuValue(field.value).on;
   if (field.type === "rating") return Number(field.value) > 0;
   return String(field.value || "").trim().length > 0;
+}
+
+/** Texto legible del valor de un campo; no todos los valores son cadenas. */
+export function fieldText(field) {
+  if (field.type === "menu") {
+    const { on, kind } = menuValue(field.value);
+    return on ? `si ${kind}` : "no";
+  }
+  return String(field.value || "");
 }
 
 /** Primer campo relleno de un tipo concreto; se usa en la tarjeta del listado. */
@@ -46,6 +74,6 @@ export const findField = (lead, typeId) =>
 
 /** Texto sobre el que busca el buscador. */
 export const searchIndex = (lead) =>
-  [lead.name, ...lead.fields.map((field) => `${field.label} ${field.value}`)]
+  [lead.name, ...lead.fields.map((field) => `${field.label} ${fieldText(field)}`)]
     .join(" ")
     .toLowerCase();

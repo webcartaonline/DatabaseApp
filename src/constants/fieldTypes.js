@@ -13,6 +13,16 @@ export const DEFAULT_STATUSES = [
   "Perdido",
 ];
 
+/** Tipos de carta que se pueden ver en la ficha de Google Maps. */
+export const MENU_KINDS = [
+  "PDF",
+  "Imagenes",
+  "Pagina web",
+  "Enlace",
+  "Rota",
+  "Predeterminada",
+];
+
 export const FIELD_TYPES = [
   { id: "text", label: "Texto", icon: "text", empty: "", placeholder: "Escribe aqui" },
   { id: "note", label: "Nota", icon: "note", empty: "", placeholder: "Anotaciones, detalles de la visita..." },
@@ -26,6 +36,8 @@ export const FIELD_TYPES = [
   { id: "money", label: "Importe", icon: "euro", empty: "", placeholder: "0,00" },
   { id: "date", label: "Fecha", icon: "calendar", empty: "" },
   { id: "checkbox", label: "Casilla", icon: "checkbox", empty: false },
+  // Casilla si/no que, al encenderse, despliega la lista de tipos de carta.
+  { id: "menu", label: "Carta en Maps", icon: "menu", empty: { on: false, kind: "" }, options: MENU_KINDS },
   { id: "rating", label: "Interes", icon: "star", empty: 0 },
 ];
 

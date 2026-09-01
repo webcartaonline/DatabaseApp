@@ -1,19 +1,24 @@
 import { useState } from "react";
-import { DEFAULT_STATUSES, FIELD_TYPES, typeOf } from "../../constants/fieldTypes.js";
+import { FIELD_TYPES, typeOf } from "../../constants/fieldTypes.js";
 import Icon from "../ui/Icon.jsx";
 import Sheet from "../ui/Sheet.jsx";
 
-/** Elegir tipo de dato, ponerle nombre y, si es un estado, definir sus opciones. */
+/** Elegir tipo de dato, ponerle nombre y, si tiene lista, definir sus opciones. */
 export default function NewFieldSheet({ onClose, onCreate }) {
   const [typeId, setTypeId] = useState("text");
   const [label, setLabel] = useState(typeOf("text").label);
   const [labelTouched, setLabelTouched] = useState(false);
-  const [optionsText, setOptionsText] = useState(DEFAULT_STATUSES.join("\n"));
+  const [optionsText, setOptionsText] = useState(typeOf("status").options.join("\n"));
+  const [optionsTouched, setOptionsTouched] = useState(false);
 
-  // El nombre sigue al tipo elegido mientras el usuario no lo escriba a mano.
+  const hasOptions = Boolean(typeOf(typeId).options);
+
+  // El nombre y las opciones siguen al tipo elegido mientras no se toquen a mano.
   const selectType = (id) => {
+    const type = typeOf(id);
     setTypeId(id);
-    if (!labelTouched) setLabel(typeOf(id).label);
+    if (!labelTouched) setLabel(type.label);
+    if (!optionsTouched && type.options) setOptionsText(type.options.join("\n"));
   };
 
   const submit = () => {
@@ -59,12 +64,12 @@ export default function NewFieldSheet({ onClose, onCreate }) {
             setLabelTouched(true);
           }}
           onKeyDown={(event) => {
-            if (event.key === "Enter" && typeId !== "status") submit();
+            if (event.key === "Enter" && !hasOptions) submit();
           }}
         />
       </div>
 
-      {typeId === "status" && (
+      {hasOptions && (
         <div className="lt-field-group">
           <label className="lt-label" htmlFor="new-field-options">
             Opciones, una por linea
@@ -73,7 +78,10 @@ export default function NewFieldSheet({ onClose, onCreate }) {
             id="new-field-options"
             className="lt-input lt-input-area"
             value={optionsText}
-            onChange={(event) => setOptionsText(event.target.value)}
+            onChange={(event) => {
+              setOptionsText(event.target.value);
+              setOptionsTouched(true);
+            }}
           />
           <p className="lt-hint">Cada opcion recibe su propio color automaticamente.</p>
         </div>
