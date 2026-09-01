@@ -1,0 +1,7 @@
+/* Punto de entrada de estilos. El orden importa: primero los tokens. */
+@import "./tokens.css";
+@import "./base.css";
+@import "./controls.css";
+@import "./layout.css";
+@import "./fields.css";
+@import "./sheets.css";

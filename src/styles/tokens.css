@@ -1,0 +1,56 @@
+/*
+  Paleta y sombras. El tema se cambia con el atributo data-theme en <html>,
+  que escribe ThemeContext. color-scheme hace que los controles nativos
+  (calendario, desplegables, scrollbars) sigan el mismo tema.
+*/
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-2: #f4f4f5;
+  --surface-3: #e9e9ec;
+  --border: #e4e4e7;
+  --border-strong: #cfcfd4;
+  --text: #18181b;
+  --muted: #6d6d76;
+  --faint: #a1a1aa;
+  --accent: #18181b;
+  --accent-fg: #fafafa;
+  --link: #1d4ed8;
+  --danger: #c62828;
+  --danger-bg: rgba(198, 40, 40, 0.08);
+  --star: #e0a020;
+  --shadow: 0 1px 2px rgba(24, 24, 27, 0.05);
+  --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.16);
+  --fab-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --shell-width: 680px;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c0d0f;
+  --surface: #151719;
+  --surface-2: #1c1f22;
+  --surface-3: #262a2e;
+  --border: #292d32;
+  --border-strong: #3d434a;
+  --text: #ececef;
+  --muted: #9aa1aa;
+  --faint: #6d747d;
+  --accent: #ececef;
+  --accent-fg: #0c0d0f;
+  --link: #7cb0ff;
+  --danger: #f28b82;
+  --danger-bg: rgba(242, 139, 130, 0.12);
+  --star: #f0b849;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+  --fab-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
