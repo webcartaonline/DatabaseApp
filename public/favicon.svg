@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Posibles clientes">
+  <rect width="100" height="100" rx="22" ry="22" fill="#18181b"/>
+  <g transform="translate(50 50) scale(0.92) translate(-50 -52)">
+    <circle cx="48" cy="34" r="12.5" fill="#fafafa"/>
+    <path d="M48 50a22 22 0 0 1 22 22v4a4 4 0 0 1-4 4H30a4 4 0 0 1-4-4v-4a22 22 0 0 1 22-22z" fill="#fafafa"/>
+    <circle cx="70" cy="70" r="16" fill="#18181b"/>
+    <circle cx="70" cy="70" r="12.5" fill="#e0a020"/>
+    <rect x="63.5" y="68.2" width="13" height="3.6" rx="1.8" fill="#18181b"/>
+    <rect x="68.2" y="63.5" width="3.6" height="13" rx="1.8" fill="#18181b"/>
+  </g>
+</svg>
