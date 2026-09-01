@@ -2,16 +2,19 @@ import { useEffect, useState } from "react";
 import LeadDetail from "./components/leads/LeadDetail.jsx";
 import LeadList from "./components/leads/LeadList.jsx";
 import NewLeadSheet from "./components/leads/NewLeadSheet.jsx";
+import SyncGate from "./components/sync/SyncGate.jsx";
 import Icon from "./components/ui/Icon.jsx";
 import { createLead } from "./lib/leads.js";
 import { useLeads } from "./state/useLeads.js";
+import { useSyncToken } from "./state/useSyncToken.js";
 
 /**
  * Une las dos vistas de la app. Solo hay dos pantallas, asi que la navegacion
  * se resuelve con el id del negocio abierto en lugar de un router.
  */
 export default function App() {
-  const { leads, ready, actions } = useLeads();
+  const { token, saveToken, clearToken } = useSyncToken();
+  const { leads, ready, status, refresh, actions } = useLeads(token);
   const [selectedId, setSelectedId] = useState(null);
   const [newLeadOpen, setNewLeadOpen] = useState(false);
 
@@ -37,6 +40,17 @@ export default function App() {
 
   if (!ready) return null;
 
+  // Primera vez en este dispositivo: pide la clave antes de mostrar nada.
+  if (token === null) {
+    return (
+      <SyncGate
+        onConnect={saveToken}
+        onSkip={() => saveToken("")}
+        invalid={status === "unauthorized"}
+      />
+    );
+  }
+
   return (
     <>
       {selected ? (
@@ -52,7 +66,12 @@ export default function App() {
         />
       ) : (
         <>
-          <LeadList leads={leads} onOpen={setSelectedId} />
+          <LeadList
+            leads={leads}
+            onOpen={setSelectedId}
+            syncStatus={token ? status : null}
+            onRetrySync={status === "unauthorized" ? clearToken : refresh}
+          />
           <button type="button" className="lt-fab" onClick={() => setNewLeadOpen(true)}>
             <Icon name="plus" size={19} />
             Nuevo

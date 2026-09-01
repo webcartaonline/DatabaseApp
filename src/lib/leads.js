@@ -20,10 +20,12 @@ export function createField(typeId, label, options) {
 
 /** Un negocio nuevo nace con direccion y estado; el resto se anade a mano. */
 export function createLead(name, address) {
+  const now = Date.now();
   return {
     id: uid(),
     name: name.trim(),
-    createdAt: Date.now(),
+    createdAt: now,
+    updatedAt: now,
     fields: [
       { ...createField("address", "Direccion"), value: address.trim() },
       { ...createField("status", "Estado"), value: "Nuevo" },

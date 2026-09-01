@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { isFilled, searchIndex } from "../../lib/leads.js";
 import EmptyState from "../ui/EmptyState.jsx";
 import SearchInput from "../ui/SearchInput.jsx";
+import SyncBadge from "../ui/SyncBadge.jsx";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
 import LeadCard from "./LeadCard.jsx";
 
-/** Listado con buscador y filtro por estado. */
-export default function LeadList({ leads, onOpen }) {
+/** Listado con buscador, filtro por estado e indicador de sincronizacion. */
+export default function LeadList({ leads, onOpen, syncStatus, onRetrySync }) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
@@ -48,6 +49,7 @@ export default function LeadList({ leads, onOpen }) {
               <div className="lt-sub">
                 {leads.length} {leads.length === 1 ? "negocio guardado" : "negocios guardados"}
               </div>
+              {syncStatus && <SyncBadge status={syncStatus} onRetry={onRetrySync} />}
             </div>
             <ThemeToggle />
           </div>

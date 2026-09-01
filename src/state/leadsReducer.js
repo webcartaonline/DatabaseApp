@@ -1,21 +1,36 @@
+import { mergeLeads, pruneDeleted } from "../lib/sync.js";
+
 /** Toda la mutacion de datos vive aqui: una sola fuente de verdad. */
 
 export const initialLeadsState = { leads: [] };
 
+/** Aplica un cambio a un negocio y sella la fecha de modificacion. */
 const withLead = (state, id, update) => ({
-  leads: state.leads.map((lead) => (lead.id === id ? update(lead) : lead)),
+  leads: state.leads.map((lead) =>
+    lead.id === id ? { ...update(lead), updatedAt: Date.now() } : lead
+  ),
 });
 
 export function leadsReducer(state, action) {
   switch (action.type) {
     case "hydrate":
-      return { leads: action.leads };
+      return { leads: pruneDeleted(mergeLeads([], action.leads)) };
+
+    // Fusiona lo que llega del servidor con lo que ya hay en memoria.
+    case "merge":
+      return { leads: pruneDeleted(mergeLeads(state.leads, action.leads)) };
 
     case "addLead":
       return { leads: [action.lead, ...state.leads] };
 
+    // Lapida en vez de borrado real: asi el borrado tambien viaja a los
+    // demas dispositivos quando se sincroniza.
     case "deleteLead":
-      return { leads: state.leads.filter((lead) => lead.id !== action.id) };
+      return withLead(state, action.id, (lead) => ({
+        id: lead.id,
+        createdAt: lead.createdAt,
+        deletedAt: Date.now(),
+      }));
 
     case "renameLead":
       return withLead(state, action.id, (lead) => ({ ...lead, name: action.name }));

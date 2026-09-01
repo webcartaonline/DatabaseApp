@@ -7,6 +7,7 @@ const PREFIX = "gestor-clientes";
 export const STORAGE_KEYS = {
   leads: `${PREFIX}:leads:v1`,
   theme: `${PREFIX}:theme`,
+  syncToken: `${PREFIX}:sync-token`,
 };
 
 export function readJSON(key, fallback = null) {
