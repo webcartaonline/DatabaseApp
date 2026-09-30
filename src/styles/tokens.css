@@ -53,14 +53,15 @@
   --hero-top: #1d3b66;
   --hero-mid: #142d55;
   --hero-bottom: #0d2043;
-  --stage-top: #16305a;
-  --stage-bottom: #0f2346;
-  --bg: #10244a;
-  --surface: #1b355f;
-  --surface-2: #24406d;
-  --surface-3: #36527f;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.22);
+  /* Lo que en claro es blanco, en oscuro es negro puro. */
+  --stage-top: #000000;
+  --stage-bottom: #000000;
+  --bg: #000000;
+  --surface: #000000;
+  --surface-2: #1c1c1e;
+  --surface-3: #3a3a3c;
+  --border: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.28);
   --text: #eef2f8;
   --muted: #a8b5cc;
   --faint: #7383a0;
