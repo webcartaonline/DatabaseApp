@@ -5,6 +5,7 @@
  */
 const STATUS_HUES = {
   nuevo: 215,
+  "visita prevista": 175,
   contactado: 205,
   "en curso": 265,
   "en proceso": 265,
@@ -13,6 +14,7 @@ const STATUS_HUES = {
   propuesta: 285,
   visitado: 190,
   ganado: 145,
+  actualizando: 320,
   cliente: 145,
   perdido: 4,
   descartado: 220,

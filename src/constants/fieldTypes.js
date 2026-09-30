@@ -5,6 +5,21 @@
  */
 export const DEFAULT_STATUSES = [
   "Nuevo",
+  "Visita prevista",
+  "Contactado",
+  "Negociando",
+  "Pendiente",
+  "Ganado",
+  "Actualizando",
+  "Perdido",
+];
+
+/** Estados que cuentan como "falta por contactar" en el numero de la cabecera. */
+export const PENDING_CONTACT_STATUSES = ["Nuevo", "Visita prevista"];
+
+/** Lista por defecto anterior; los campos que la guardan pasan a usar la actual. */
+export const LEGACY_DEFAULT_STATUSES = [
+  "Nuevo",
   "Contactado",
   "En curso",
   "Negociando",

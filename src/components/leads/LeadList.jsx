@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { PENDING_CONTACT_STATUSES } from "../../constants/fieldTypes.js";
 import { isFilled, searchIndex } from "../../lib/leads.js";
 import EmptyState from "../ui/EmptyState.jsx";
 import Icon from "../ui/Icon.jsx";
@@ -21,6 +22,16 @@ export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync
     );
     return [...found].sort();
   }, [leads]);
+
+  const pendingCount = useMemo(
+    () =>
+      leads.filter((lead) =>
+        lead.fields.some(
+          (field) => field.type === "status" && PENDING_CONTACT_STATUSES.includes(field.value)
+        )
+      ).length,
+    [leads]
+  );
 
   useEffect(() => {
     if (statusFilter && !statuses.includes(statusFilter)) setStatusFilter("");
@@ -58,10 +69,10 @@ export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync
             </div>
 
             <div className="lt-summary">
-              <span className="lt-summary-k">Tu cartera</span>
-              <span className="lt-summary-n">{leads.length}</span>
+              <span className="lt-summary-k">Por contactar</span>
+              <span className="lt-summary-n">{pendingCount}</span>
               <span className="lt-summary-l">
-                {leads.length === 1 ? "negocio guardado" : "negocios guardados"}
+                {pendingCount === 1 ? "negocio pendiente" : "negocios pendientes"}
               </span>
               {syncStatus && <SyncBadge status={syncStatus} onRetry={onRetrySync} />}
             </div>
