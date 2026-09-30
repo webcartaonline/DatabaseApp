@@ -1,27 +1,31 @@
-/* Filas de campo dentro de la ficha y los distintos tipos de valor. */
+/* Campos de la ficha: cada uno es una tarjeta clara. */
 .lt-fields {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .lt-field {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
-}
-
-.lt-field:last-child {
-  border-bottom: 0;
+  padding: 14px 16px 14px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
 }
 
 .lt-field-head {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--muted);
-  min-height: 26px;
+  min-height: 34px;
+}
+
+.lt-field-head > .lt-icon {
+  box-sizing: content-box;
+  padding: 8px;
+  border-radius: 50%;
+  color: var(--accent);
+  background: var(--surface-2);
 }
 
 .lt-field-label {
@@ -34,16 +38,18 @@
   font-weight: 500;
   color: var(--text);
   background: var(--surface-2);
-  padding: 3px 6px;
-  margin: -3px -6px;
-  border-radius: 6px;
+  padding: 5px 10px;
+  margin: -5px 0;
+  border-radius: 10px;
 }
 
 .lt-field-actions {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding-top: 8px;
+  gap: 4px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
 }
 
 .lt-confirm {
@@ -51,7 +57,9 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  padding-top: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
   font-size: 13px;
   color: var(--muted);
 }
@@ -59,20 +67,21 @@
 .lt-val {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 10px;
+  margin-top: 8px;
 }
 
-/* Interruptor y lista del campo "Carta en Maps", uno debajo del otro. */
 .lt-val-stack {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .lt-val-input {
-  padding: 6px 8px;
-  margin: 0 -8px;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 10px;
+  margin: 0 -10px;
   border-radius: var(--radius-sm);
   transition: background 0.12s ease, box-shadow 0.12s ease;
 }
@@ -83,23 +92,30 @@
 }
 
 .lt-textarea {
-  line-height: 1.5;
+  line-height: 1.55;
+  font-weight: 400;
 }
 
 .lt-suffix {
   color: var(--muted);
+  font-weight: 500;
 }
 
 .lt-open {
-  width: 36px;
-  height: 36px;
-  border-radius: 9px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--link);
-  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1.5px currentColor;
   flex: none;
+  transition: background 0.15s ease;
+}
+
+.lt-open:hover {
+  background: var(--surface-2);
 }
 
 .lt-open.is-off {
@@ -109,8 +125,8 @@
 }
 
 .lt-switch {
-  width: 46px;
-  height: 28px;
+  width: 50px;
+  height: 30px;
   border-radius: 999px;
   background: var(--surface-3);
   position: relative;
@@ -122,11 +138,11 @@
   position: absolute;
   top: 3px;
   left: 3px;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: var(--surface);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   transition: transform 0.18s ease;
 }
 
@@ -135,41 +151,50 @@
 }
 
 .lt-switch.is-on span {
-  transform: translateX(18px);
+  transform: translateX(20px);
   background: var(--accent-fg);
 }
 
 .lt-switch-label {
   font-size: 14px;
-  color: var(--muted);
+  font-weight: 500;
+  color: var(--text);
 }
 
 .lt-stars {
   display: flex;
-  gap: 2px;
+  gap: 6px;
 }
 
 .lt-star {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--border-strong);
+  color: var(--surface-3);
+  background: var(--surface-2);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.lt-star .lt-icon {
+  fill: currentColor;
 }
 
 .lt-star.is-on {
   color: var(--star);
+  background: color-mix(in srgb, var(--star) 16%, transparent);
 }
 
 .lt-select-wrap {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  height: 38px;
-  padding: 0 8px;
-  border-radius: 9px;
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 16px;
   background: var(--surface-2);
 }
 
@@ -177,7 +202,7 @@
   appearance: none;
   -webkit-appearance: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
 }
 

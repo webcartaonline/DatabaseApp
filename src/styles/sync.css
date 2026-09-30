@@ -3,14 +3,15 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: 10px;
   padding: 0;
   border: 0;
   background: transparent;
-  color: inherit;
+  color: var(--on-hero);
   font: inherit;
-  font-size: 12px;
-  opacity: 0.7;
+  font-size: 11.5px;
+  opacity: 0.85;
+  text-align: left;
 }
 
 .lt-sync-dot {
@@ -22,17 +23,18 @@
 }
 
 .lt-sync.is-synced .lt-sync-dot {
-  background: #16a34a;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
 }
 
 .lt-sync.is-syncing .lt-sync-dot {
-  background: #f59e0b;
+  background: #fbbf24;
   animation: lt-pulse 1s infinite;
 }
 
 .lt-sync.is-offline .lt-sync-dot,
 .lt-sync.is-unauthorized .lt-sync-dot {
-  background: var(--danger);
+  background: #ff9d90;
 }
 
 @keyframes lt-pulse {
@@ -41,32 +43,55 @@
   }
 }
 
+.lt-gate-screen {
+  min-height: 100dvh;
+}
+
 .lt-gate {
   display: grid;
-  gap: 12px;
+  gap: 14px;
   align-content: center;
-  min-height: 100dvh;
-  text-align: left;
+  min-height: calc(100dvh - env(safe-area-inset-top));
+  padding: 24px 24px calc(24px + env(safe-area-inset-bottom));
+  max-width: 480px;
+}
+
+.lt-gate .lt-app-icon {
+  margin-bottom: 10px;
 }
 
 .lt-gate .lt-title {
-  font-size: 22px;
+  font-size: 28px;
 }
 
-.lt-input {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-  font-size: 15px;
+.lt-gate .lt-sub {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 0 8px;
 }
 
-.lt-input:focus {
-  border-color: var(--border-strong);
+.lt-input-glass {
+  height: 64px;
+  border-radius: 22px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: none;
+  color: var(--on-hero);
+  font-size: 16px;
+  padding: 0 18px;
+}
+
+.lt-input-glass::placeholder {
+  color: var(--on-hero-faint);
+}
+
+.lt-input-glass:focus {
+  background: var(--glass-strong);
+  box-shadow: none;
 }
 
 .lt-error {
-  color: var(--danger);
+  color: #ffb4a8;
   font-size: 13px;
   margin: -4px 0 0;
 }

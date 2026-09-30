@@ -3,7 +3,6 @@ import LeadDetail from "./components/leads/LeadDetail.jsx";
 import LeadList from "./components/leads/LeadList.jsx";
 import NewLeadSheet from "./components/leads/NewLeadSheet.jsx";
 import SyncGate from "./components/sync/SyncGate.jsx";
-import Icon from "./components/ui/Icon.jsx";
 import { createLead } from "./lib/leads.js";
 import { useLeads } from "./state/useLeads.js";
 import { useSyncToken } from "./state/useSyncToken.js";
@@ -24,6 +23,11 @@ export default function App() {
   useEffect(() => {
     if (ready && selectedId && !selected) setSelectedId(null);
   }, [ready, selectedId, selected]);
+
+  // Cada cambio de pantalla empieza arriba del todo.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [selectedId]);
 
   const handleCreateLead = (name, address) => {
     const lead = createLead(name, address);
@@ -65,18 +69,13 @@ export default function App() {
           onDelete={handleDeleteLead}
         />
       ) : (
-        <>
-          <LeadList
-            leads={leads}
-            onOpen={setSelectedId}
-            syncStatus={token ? status : null}
-            onRetrySync={status === "unauthorized" ? clearToken : refresh}
-          />
-          <button type="button" className="lt-fab" onClick={() => setNewLeadOpen(true)}>
-            <Icon name="plus" size={19} />
-            Nuevo
-          </button>
-        </>
+        <LeadList
+          leads={leads}
+          onOpen={setSelectedId}
+          onNew={() => setNewLeadOpen(true)}
+          syncStatus={token ? status : null}
+          onRetrySync={status === "unauthorized" ? clearToken : refresh}
+        />
       )}
 
       {newLeadOpen && <NewLeadSheet onClose={() => setNewLeadOpen(false)} onCreate={handleCreateLead} />}

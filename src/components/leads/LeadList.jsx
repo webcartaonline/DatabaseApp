@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { isFilled, searchIndex } from "../../lib/leads.js";
 import EmptyState from "../ui/EmptyState.jsx";
+import Icon from "../ui/Icon.jsx";
 import SearchInput from "../ui/SearchInput.jsx";
 import SyncBadge from "../ui/SyncBadge.jsx";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
 import LeadCard from "./LeadCard.jsx";
 
-/** Listado con buscador, filtro por estado e indicador de sincronizacion. */
-export default function LeadList({ leads, onOpen, syncStatus, onRetrySync }) {
+/** Listado con cabecera de resumen, buscador, filtro por estado y sincronizacion. */
+export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync }) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
@@ -21,7 +22,6 @@ export default function LeadList({ leads, onOpen, syncStatus, onRetrySync }) {
     return [...found].sort();
   }, [leads]);
 
-  // Si el estado por el que se filtraba ya no existe, se limpia el filtro.
   useEffect(() => {
     if (statusFilter && !statuses.includes(statusFilter)) setStatusFilter("");
   }, [statuses, statusFilter]);
@@ -41,20 +41,41 @@ export default function LeadList({ leads, onOpen, syncStatus, onRetrySync }) {
 
   return (
     <>
-      <header className="lt-top">
-        <div className="lt-top-inner">
-          <div className="lt-bar">
-            <div className="lt-grow">
-              <h1 className="lt-title">Posibles clientes</h1>
-              <div className="lt-sub">
-                {leads.length} {leads.length === 1 ? "negocio guardado" : "negocios guardados"}
+      <header className="lt-hero">
+        <div className="lt-hero-inner">
+          <div className="lt-hero-grid">
+            <div className="lt-hero-left">
+              <div className="lt-hero-tools">
+                <div className="lt-app-icon">
+                  <Icon name="store" size={28} />
+                </div>
+                <ThemeToggle />
               </div>
+              <div>
+                <div className="lt-kicker">Gestor de clientes</div>
+                <h1 className="lt-title">Posibles clientes</h1>
+              </div>
+            </div>
+
+            <div className="lt-summary">
+              <span className="lt-summary-k">Tu cartera</span>
+              <span className="lt-summary-n">{leads.length}</span>
+              <span className="lt-summary-l">
+                {leads.length === 1 ? "negocio guardado" : "negocios guardados"}
+              </span>
               {syncStatus && <SyncBadge status={syncStatus} onRetry={onRetrySync} />}
             </div>
-            <ThemeToggle />
           </div>
 
-          <SearchInput value={query} onChange={setQuery} placeholder="Buscar por nombre, calle o dato" />
+          <div className="lt-actions">
+            <button type="button" className="lt-new" onClick={onNew}>
+              <span className="lt-ring">
+                <Icon name="plus" size={18} />
+              </span>
+              Nuevo
+            </button>
+            <SearchInput value={query} onChange={setQuery} placeholder="Buscar por nombre, calle o dato" />
+          </div>
 
           {statuses.length > 0 && (
             <div className="lt-chips">
@@ -80,20 +101,31 @@ export default function LeadList({ leads, onOpen, syncStatus, onRetrySync }) {
         </div>
       </header>
 
-      <main className="lt-shell">
-        {visible.length === 0 ? (
-          <EmptyState title={leads.length === 0 ? "Aun no hay negocios" : "Ningun resultado"}>
-            {leads.length === 0
-              ? "Anade el primer local con su nombre y su direccion. Despues podras sumarle los campos que necesites."
-              : "Prueba con otro termino o quita el filtro de estado."}
-          </EmptyState>
-        ) : (
-          <div className="lt-list">
-            {visible.map((lead) => (
-              <LeadCard key={lead.id} lead={lead} onOpen={onOpen} />
-            ))}
+      <main className="lt-stage">
+        <div className="lt-shell">
+          <div className="lt-stage-head">
+            <h2 className="lt-stage-title">Negocios</h2>
+            {leads.length > 0 && (
+              <span className="lt-stage-meta">
+                {visible.length} de {leads.length}
+              </span>
+            )}
           </div>
-        )}
+
+          {visible.length === 0 ? (
+            <EmptyState title={leads.length === 0 ? "Aún no hay negocios" : "Ningún resultado"}>
+              {leads.length === 0
+                ? "Añade el primer local con su nombre y su dirección. Después podrás sumarle los campos que necesites."
+                : "Prueba con otro término o quita el filtro de estado."}
+            </EmptyState>
+          ) : (
+            <div className="lt-list">
+              {visible.map((lead) => (
+                <LeadCard key={lead.id} lead={lead} onOpen={onOpen} />
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     </>
   );

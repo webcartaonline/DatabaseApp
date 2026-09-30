@@ -1,56 +1,78 @@
 /*
-  Paleta y sombras. El tema se cambia con el atributo data-theme en <html>,
-  que escribe ThemeContext. color-scheme hace que los controles nativos
-  (calendario, desplegables, scrollbars) sigan el mismo tema.
+  Paleta "azul marino + cristal". La cabecera siempre es azul marino; el panel
+  de contenido es claro (tema claro) u oscuro (tema oscuro). data-theme lo
+  escribe ThemeContext.
 */
 :root {
-  --bg: #fafafa;
-  --surface: #ffffff;
-  --surface-2: #f4f4f5;
-  --surface-3: #e9e9ec;
-  --border: #e4e4e7;
-  --border-strong: #cfcfd4;
-  --text: #18181b;
-  --muted: #6d6d76;
-  --faint: #a1a1aa;
-  --accent: #18181b;
-  --accent-fg: #fafafa;
-  --link: #1d4ed8;
-  --danger: #c62828;
-  --danger-bg: rgba(198, 40, 40, 0.08);
-  --star: #e0a020;
-  --shadow: 0 1px 2px rgba(24, 24, 27, 0.05);
-  --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.16);
-  --fab-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  --hero-top: #284b78;
+  --hero-mid: #1c3a65;
+  --hero-bottom: #132b53;
+  --on-hero: #ffffff;
+  --on-hero-muted: rgba(255, 255, 255, 0.72);
+  --on-hero-faint: rgba(255, 255, 255, 0.5);
+  --glass: rgba(255, 255, 255, 0.09);
+  --glass-strong: rgba(255, 255, 255, 0.16);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-shadow: 0 14px 30px rgba(6, 18, 42, 0.3);
+  --pill: linear-gradient(100deg, #e6ecf8 0%, #dfe2f7 55%, #d9cff5 100%);
+  --pill-text: #13264a;
 
-  --radius-sm: 8px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --stage-top: #eef2f8;
+  --stage-bottom: #d8e0ec;
+  --bg: #e9eef6;
+  --surface: #f7f9fc;
+  --surface-2: #e4eaf3;
+  --surface-3: #c9d3e3;
+  --border: rgba(19, 38, 74, 0.08);
+  --border-strong: rgba(19, 38, 74, 0.22);
+  --text: #13264a;
+  --muted: #5f6f8c;
+  --faint: #95a1b6;
+  --accent: #1c3a65;
+  --accent-fg: #ffffff;
+  --accent-grad: linear-gradient(170deg, #2c4f7f, #163260);
+  --link: #2758a6;
+  --danger: #c43d2f;
+  --danger-bg: rgba(196, 61, 47, 0.1);
+  --star: #e8a92f;
+  --shadow: 0 8px 20px rgba(19, 38, 74, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --sheet-shadow: 0 -20px 50px rgba(6, 18, 42, 0.35);
+  --fab-shadow: 0 18px 40px rgba(6, 18, 42, 0.4), inset 0 1px 0 #ffffff;
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
   --shell-width: 680px;
+  --font: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --bg: #0c0d0f;
-  --surface: #151719;
-  --surface-2: #1c1f22;
-  --surface-3: #262a2e;
-  --border: #292d32;
-  --border-strong: #3d434a;
-  --text: #ececef;
-  --muted: #9aa1aa;
-  --faint: #6d747d;
-  --accent: #ececef;
-  --accent-fg: #0c0d0f;
-  --link: #7cb0ff;
-  --danger: #f28b82;
-  --danger-bg: rgba(242, 139, 130, 0.12);
-  --star: #f0b849;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
-  --fab-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  --hero-top: #1d3b66;
+  --hero-mid: #142d55;
+  --hero-bottom: #0d2043;
+  --stage-top: #16305a;
+  --stage-bottom: #0f2346;
+  --bg: #10244a;
+  --surface: #1b355f;
+  --surface-2: #24406d;
+  --surface-3: #36527f;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --text: #eef2f8;
+  --muted: #a8b5cc;
+  --faint: #7383a0;
+  --accent: #e3e9f6;
+  --accent-fg: #13264a;
+  --accent-grad: linear-gradient(170deg, #eef2fa, #cbd6ec);
+  --link: #9cc0ff;
+  --danger: #ff9d90;
+  --danger-bg: rgba(255, 157, 144, 0.12);
+  --star: #f5c04f;
+  --shadow: 0 10px 24px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --sheet-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
 
   color-scheme: dark;
 }
