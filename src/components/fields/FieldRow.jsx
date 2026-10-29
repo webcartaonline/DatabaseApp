@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { typeOf } from "../../constants/fieldTypes.js";
+import { fieldLabel } from "../../lib/leads.js";
 import Icon from "../ui/Icon.jsx";
 import FieldValue from "./FieldValue.jsx";
 
@@ -11,17 +12,18 @@ export default function FieldRow({ field, isFirst, isLast, onChange, onRename, o
   const [menuOpen, setMenuOpen] = useState(false);
   const [renaming, setRenaming] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  const [draftLabel, setDraftLabel] = useState(field.label);
+  const label = fieldLabel(field);
+  const [draftLabel, setDraftLabel] = useState(label);
 
   const startRename = () => {
-    setDraftLabel(field.label);
+    setDraftLabel(label);
     setRenaming(true);
     setConfirming(false);
   };
 
   const commitRename = () => {
     const next = draftLabel.trim();
-    if (next && next !== field.label) onRename(next);
+    if (next && next !== label) onRename(next);
     setRenaming(false);
   };
 
@@ -49,14 +51,14 @@ export default function FieldRow({ field, isFirst, isLast, onChange, onRename, o
             }}
           />
         ) : (
-          <span className="lt-field-label lt-grow lt-truncate">{field.label}</span>
+          <span className="lt-field-label lt-grow lt-truncate">{label}</span>
         )}
 
         {!renaming && (
           <button
             type="button"
             className={`lt-mini${menuOpen ? " is-on" : ""}`}
-            aria-label={`Opciones de ${field.label}`}
+            aria-label={`Opciones de ${label}`}
             aria-expanded={menuOpen}
             onClick={toggleMenu}
           >
@@ -65,7 +67,7 @@ export default function FieldRow({ field, isFirst, isLast, onChange, onRename, o
         )}
       </div>
 
-      <FieldValue field={field} onChange={onChange} />
+      <FieldValue field={field} label={label} onChange={onChange} />
 
       {menuOpen && !confirming && (
         <div className="lt-field-actions">

@@ -1,28 +1,19 @@
-import { useEffect, useRef } from "react";
 import { typeOf } from "../../constants/fieldTypes.js";
+import CopyButton from "../ui/CopyButton.jsx";
 
-/** Nota larga: el area de texto crece con el contenido. */
-export default function NoteValue({ field, onChange }) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-    element.style.height = "auto";
-    element.style.height = `${element.scrollHeight}px`;
-  }, [field.value]);
-
+/** Nota corta, de alto fijo y sin formato, con un boton para copiarla. */
+export default function NoteValue({ field, label, onChange }) {
   return (
     <div className="lt-val">
       <textarea
-        ref={ref}
-        rows={1}
-        className="lt-val-input lt-textarea"
+        rows={2}
+        className="lt-val-input lt-textarea lt-note"
         value={field.value || ""}
         placeholder={typeOf("note").placeholder}
-        aria-label={field.label}
+        aria-label={label}
         onChange={(event) => onChange(event.target.value)}
       />
+      <CopyButton text={field.value} label={`Copiar ${label}`} />
     </div>
   );
 }

@@ -96,9 +96,134 @@
   font-weight: 400;
 }
 
-.lt-suffix {
+/* Nota: texto corto de alto fijo; si se alarga, se desplaza por dentro. */
+.lt-note {
+  resize: none;
+  overflow-y: auto;
+}
+
+/* Texto: editor que crece y vista con formato Markdown. */
+.lt-val-col {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.lt-md-hint {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--faint);
+}
+
+.lt-md {
+  display: block;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  cursor: text;
+  overflow-wrap: anywhere;
+  padding: 6px 0 2px;
+}
+
+.lt-md > :first-child {
+  margin-top: 0;
+}
+
+.lt-md > :last-child {
+  margin-bottom: 0;
+}
+
+.lt-md p,
+.lt-md ul,
+.lt-md ol,
+.lt-md blockquote,
+.lt-md pre,
+.lt-md table {
+  margin: 0 0 10px;
+}
+
+.lt-md h1,
+.lt-md h2,
+.lt-md h3,
+.lt-md h4 {
+  margin: 14px 0 6px;
+  line-height: 1.3;
+}
+
+.lt-md h1 {
+  font-size: 19px;
+}
+
+.lt-md h2 {
+  font-size: 17px;
+}
+
+.lt-md h3,
+.lt-md h4 {
+  font-size: 15.5px;
+}
+
+.lt-md ul,
+.lt-md ol {
+  padding-left: 22px;
+}
+
+.lt-md li + li {
+  margin-top: 3px;
+}
+
+.lt-md a {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+.lt-md blockquote {
+  padding: 2px 0 2px 12px;
+  border-left: 3px solid var(--border-strong);
   color: var(--muted);
-  font-weight: 500;
+}
+
+.lt-md code {
+  font-size: 13.5px;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: var(--surface-2);
+}
+
+.lt-md pre {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  overflow-x: auto;
+}
+
+.lt-md pre code {
+  padding: 0;
+  background: none;
+}
+
+.lt-md hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+
+.lt-md table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.lt-md th,
+.lt-md td {
+  padding: 5px 9px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.lt-md input[type="checkbox"] {
+  margin-right: 6px;
 }
 
 .lt-open {
@@ -116,6 +241,10 @@
 
 .lt-open:hover {
   background: var(--surface-2);
+}
+
+.lt-open.is-done {
+  color: var(--accent);
 }
 
 .lt-open.is-off {

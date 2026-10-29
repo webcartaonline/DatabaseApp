@@ -28,7 +28,7 @@ export const LEGACY_DEFAULT_STATUSES = [
   "Perdido",
 ];
 
-/** Tipos de carta que se pueden ver en la ficha de Google Maps. */
+/** Opciones que despliega el Activador al encenderse. */
 export const MENU_KINDS = [
   "PDF",
   "Imagenes",
@@ -38,24 +38,35 @@ export const MENU_KINDS = [
   "Predeterminada",
 ];
 
-export const FIELD_TYPES = [
-  { id: "text", label: "Texto", icon: "text", empty: "", placeholder: "Escribe aqui" },
-  { id: "note", label: "Nota", icon: "note", empty: "", placeholder: "Anotaciones, detalles de la visita..." },
-  { id: "status", label: "Estado", icon: "flag", empty: "", options: DEFAULT_STATUSES },
+/** Nombre que tenia el Activador; los campos antiguos se muestran con el nuevo. */
+export const LEGACY_MENU_LABEL = "Carta en Maps";
+
+/**
+ * Todos los tipos que la app sabe pintar. Los marcados como legacy ya no se
+ * ofrecen al anadir un campo, pero los negocios que los tienen los conservan.
+ */
+const ALL_FIELD_TYPES = [
+  { id: "link", label: "Enlace", icon: "link", empty: "", placeholder: "Instagram, Google Maps..." },
+  { id: "website", label: "Página web", icon: "globe", empty: { on: false, url: "" }, placeholder: "www.negocio.com" },
+  { id: "note", label: "Nota", icon: "sticky", empty: "", placeholder: "Texto corto para copiar" },
+  { id: "text", label: "Texto", icon: "doc", empty: "", placeholder: "Escribe aquí. Admite formato Markdown" },
   { id: "person", label: "Persona", icon: "user", empty: "", placeholder: "Nombre del contacto" },
-  { id: "phone", label: "Telefono", icon: "phone", empty: "", placeholder: "600 000 000" },
+  { id: "phone", label: "Teléfono", icon: "phone", empty: "", placeholder: "600 000 000" },
   { id: "email", label: "Email", icon: "mail", empty: "", placeholder: "hola@negocio.com" },
-  { id: "link", label: "Enlace", icon: "link", empty: "", placeholder: "web, Instagram..." },
-  { id: "address", label: "Direccion", icon: "pin", empty: "", placeholder: "Calle, numero, ciudad" },
-  { id: "number", label: "Numero", icon: "hash", empty: "", placeholder: "0" },
+  { id: "address", label: "Dirección", icon: "pin", empty: "", placeholder: "Calle, número, ciudad" },
   { id: "money", label: "Importe", icon: "euro", empty: "", placeholder: "0,00" },
-  { id: "date", label: "Fecha", icon: "calendar", empty: "" },
   { id: "checkbox", label: "Casilla", icon: "checkbox", empty: false },
-  // Casilla si/no que, al encenderse, despliega la lista de tipos de carta.
-  { id: "menu", label: "Carta en Maps", icon: "menu", empty: { on: false, kind: "" }, options: MENU_KINDS },
-  { id: "rating", label: "Interes", icon: "star", empty: 0 },
+  // Interruptor si/no que, al encenderse, despliega una lista de opciones.
+  { id: "menu", label: "Activador", icon: "power", empty: { on: false, kind: "" }, options: MENU_KINDS },
+  { id: "status", label: "Estado", icon: "flag", empty: "", options: DEFAULT_STATUSES },
+  { id: "number", label: "Número", icon: "hash", empty: "", placeholder: "0", legacy: true },
+  { id: "date", label: "Fecha", icon: "calendar", empty: "", legacy: true },
+  { id: "rating", label: "Interés", icon: "star", empty: 0, legacy: true },
 ];
 
-const TYPE_MAP = FIELD_TYPES.reduce((map, type) => ({ ...map, [type.id]: type }), {});
+/** Tipos que se pueden elegir en el panel "Nuevo campo". */
+export const FIELD_TYPES = ALL_FIELD_TYPES.filter((type) => !type.legacy);
+
+const TYPE_MAP = ALL_FIELD_TYPES.reduce((map, type) => ({ ...map, [type.id]: type }), {});
 
 export const typeOf = (id) => TYPE_MAP[id] || TYPE_MAP.text;

@@ -2,7 +2,7 @@ import { DEFAULT_STATUSES, LEGACY_DEFAULT_STATUSES } from "../../constants/field
 import OptionSelect from "./OptionSelect.jsx";
 
 /** Desplegable de estado con punto de color. */
-export default function StatusValue({ field, onChange }) {
+export default function StatusValue({ field, label, onChange }) {
   // Los campos creados con la lista por defecto antigua muestran la actual.
   const custom =
     field.options &&
@@ -15,7 +15,7 @@ export default function StatusValue({ field, onChange }) {
       <OptionSelect
         value={field.value}
         options={options}
-        label={field.label}
+        label={label}
         placeholder="Sin estado"
         onChange={onChange}
       />

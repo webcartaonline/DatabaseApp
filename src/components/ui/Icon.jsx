@@ -71,19 +71,37 @@ const ICONS = {
     </>
   ),
   flag: <path d="M6 21V4M6 5.2h11l-2.2 3.6L17 12.4H6" />,
-  text: <path d="M5 6.5h14M5 12h14M5 17.5h9" />,
-  note: (
+  // Texto: hoja con renglones (texto largo con formato).
+  doc: (
     <>
-      <rect x="4.5" y="3.5" width="15" height="17" rx="2" />
-      <path d="M8.5 9h7M8.5 12.6h7M8.5 16.2h4" />
+      <path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-10Z" />
+      <path d="M14 3.5v5h5M8.5 12.5h7M8.5 16h5" />
     </>
   ),
-  menu: (
+  // Nota: posit con la esquina doblada (texto corto).
+  sticky: (
     <>
-      <path d="M4 18.5h16" />
-      <path d="M5.5 18.5a6.5 6.5 0 0 1 13 0" />
-      <path d="M12 5.6V8" />
-      <circle cx="12" cy="4.4" r="1.1" />
+      <path d="M20 14V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8Z" />
+      <path d="M14 20v-4a2 2 0 0 1 2-2h4M8 9h8M8 12.5h4" />
+    </>
+  ),
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.3 3.5 8.5s-1.1 6.1-3.5 8.5M12 3.5C9.6 5.9 8.5 8.8 8.5 12s1.1 6.1 3.5 8.5" />
+    </>
+  ),
+  // Activador: boton de encendido.
+  power: (
+    <>
+      <path d="M12 3.5v8" />
+      <path d="M7.2 6.6a7.5 7.5 0 1 0 9.6 0" />
+    </>
+  ),
+  copy: (
+    <>
+      <rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2" />
+      <path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5" />
     </>
   ),
   store: <path d="M4 20.5V9.5M20 20.5V9.5M3 9.5 5 4h14l2 5.5A2.6 2.6 0 0 1 16.7 12 2.6 2.6 0 0 1 12 10.6 2.6 2.6 0 0 1 7.3 12 2.6 2.6 0 0 1 3 9.5ZM3.5 20.5h17M9.5 20.5v-5h5v5" />,

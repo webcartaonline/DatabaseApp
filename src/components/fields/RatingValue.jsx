@@ -3,12 +3,12 @@ import Icon from "../ui/Icon.jsx";
 const STARS = [1, 2, 3, 4, 5];
 
 /** Valoracion de 1 a 5. Pulsar la estrella actual vuelve a dejarlo sin valorar. */
-export default function RatingValue({ field, onChange }) {
+export default function RatingValue({ field, label, onChange }) {
   const current = Number(field.value) || 0;
 
   return (
     <div className="lt-val">
-      <div className="lt-stars" role="group" aria-label={field.label}>
+      <div className="lt-stars" role="group" aria-label={label}>
         {STARS.map((value) => (
           <button
             key={value}

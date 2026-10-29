@@ -3,10 +3,12 @@ import { FIELD_TYPES, typeOf } from "../../constants/fieldTypes.js";
 import Icon from "../ui/Icon.jsx";
 import Sheet from "../ui/Sheet.jsx";
 
+const DEFAULT_TYPE = FIELD_TYPES[0];
+
 /** Elegir tipo de dato, ponerle nombre y, si tiene lista, definir sus opciones. */
 export default function NewFieldSheet({ onClose, onCreate }) {
-  const [typeId, setTypeId] = useState("text");
-  const [label, setLabel] = useState(typeOf("text").label);
+  const [typeId, setTypeId] = useState(DEFAULT_TYPE.id);
+  const [label, setLabel] = useState(DEFAULT_TYPE.label);
   const [labelTouched, setLabelTouched] = useState(false);
   const [optionsText, setOptionsText] = useState(typeOf("status").options.join("\n"));
   const [optionsTouched, setOptionsTouched] = useState(false);
@@ -72,7 +74,7 @@ export default function NewFieldSheet({ onClose, onCreate }) {
       {hasOptions && (
         <div className="lt-field-group">
           <label className="lt-label" htmlFor="new-field-options">
-            Opciones, una por linea
+            Opciones, una por línea
           </label>
           <textarea
             id="new-field-options"
@@ -83,12 +85,12 @@ export default function NewFieldSheet({ onClose, onCreate }) {
               setOptionsTouched(true);
             }}
           />
-          <p className="lt-hint">Cada opcion recibe su propio color automaticamente.</p>
+          <p className="lt-hint">Cada opción recibe su propio color automaticamente.</p>
         </div>
       )}
 
       <button type="button" className="lt-btn lt-btn-primary lt-btn-full" onClick={submit}>
-        Anadir campo
+        Añadir campo
       </button>
     </Sheet>
   );
