@@ -1,5 +1,5 @@
 import { uid } from "./id.js";
-import { DEFAULT_STATUSES, typeOf } from "../constants/fieldTypes.js";
+import { DEFAULT_STATUSES, PENDING_CONTACT_STATUSES, typeOf } from "../constants/fieldTypes.js";
 
 /** El valor vacio se copia: los tipos con objeto no deben compartir referencia. */
 const emptyValue = (type) =>
@@ -35,11 +35,15 @@ export function createField(typeId, label, options) {
   return field;
 }
 
-/** Un negocio nuevo nace con direccion, estado y carta; el resto se anade a mano. */
-export function createLead(name, address) {
+/**
+ * Un negocio nuevo nace dentro de una categoria, con direccion, estado y
+ * carta; el resto se anade a mano.
+ */
+export function createLead(name, address, categoryId) {
   const now = Date.now();
   return {
     id: uid(),
+    categoryId,
     name: name.trim(),
     createdAt: now,
     updatedAt: now,
@@ -71,6 +75,12 @@ export function fieldText(field) {
 /** Primer campo relleno de un tipo concreto; se usa en la tarjeta del listado. */
 export const findField = (lead, typeId) =>
   lead.fields.find((field) => field.type === typeId && isFilled(field));
+
+/** Un negocio esta pendiente si su estado aun pide contactarlo. */
+export const isPending = (lead) =>
+  lead.fields.some(
+    (field) => field.type === "status" && PENDING_CONTACT_STATUSES.includes(field.value)
+  );
 
 /** Texto sobre el que busca el buscador. */
 export const searchIndex = (lead) =>

@@ -1,3 +1,5 @@
+import { toData } from "./sync.js";
+
 /**
  * Cliente del endpoint /api/leads. Lanza errores con nombre para que el hook
  * sepa distinguir entre "no hay red" y "la clave esta mal".
@@ -14,9 +16,8 @@ async function request(method, token, body) {
   if (response.status === 401) throw new Error("unauthorized");
   if (!response.ok) throw new Error("request-failed");
 
-  const data = await response.json();
-  return Array.isArray(data.leads) ? data.leads : [];
+  return toData(await response.json());
 }
 
-export const fetchLeads = (token) => request("GET", token);
-export const pushLeads = (token, leads) => request("PUT", token, { leads });
+export const fetchData = (token) => request("GET", token);
+export const pushData = (token, data) => request("PUT", token, data);

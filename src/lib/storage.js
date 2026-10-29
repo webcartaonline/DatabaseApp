@@ -6,6 +6,8 @@ const PREFIX = "gestor-clientes";
 
 export const STORAGE_KEYS = {
   leads: `${PREFIX}:leads:v1`,
+  categories: `${PREFIX}:categories:v1`,
+  activeCategory: `${PREFIX}:active-category`,
   theme: `${PREFIX}:theme`,
   syncToken: `${PREFIX}:sync-token`,
 };

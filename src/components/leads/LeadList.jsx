@@ -1,15 +1,28 @@
 import { useEffect, useMemo, useState } from "react";
-import { PENDING_CONTACT_STATUSES } from "../../constants/fieldTypes.js";
-import { isFilled, searchIndex } from "../../lib/leads.js";
+import { isFilled, isPending, searchIndex } from "../../lib/leads.js";
+import CategoryButton from "../categories/CategoryButton.jsx";
 import EmptyState from "../ui/EmptyState.jsx";
 import Icon from "../ui/Icon.jsx";
 import SearchInput from "../ui/SearchInput.jsx";
 import SyncBadge from "../ui/SyncBadge.jsx";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
 import LeadCard from "./LeadCard.jsx";
+import PendingSummary from "./PendingSummary.jsx";
 
-/** Listado con cabecera de resumen, buscador, filtro por estado y sincronizacion. */
-export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync }) {
+/**
+ * Listado de los negocios de una categoria, con cabecera de resumen,
+ * buscador, filtro por estado y sincronizacion.
+ */
+export default function LeadList({
+  leads,
+  category,
+  onOpen,
+  onNew,
+  onOpenCategories,
+  onOpenPending,
+  syncStatus,
+  onRetrySync,
+}) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
@@ -23,15 +36,7 @@ export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync
     return [...found].sort();
   }, [leads]);
 
-  const pendingCount = useMemo(
-    () =>
-      leads.filter((lead) =>
-        lead.fields.some(
-          (field) => field.type === "status" && PENDING_CONTACT_STATUSES.includes(field.value)
-        )
-      ).length,
-    [leads]
-  );
+  const pendingCount = useMemo(() => leads.filter(isPending).length, [leads]);
 
   useEffect(() => {
     if (statusFilter && !statuses.includes(statusFilter)) setStatusFilter("");
@@ -57,9 +62,7 @@ export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync
           <div className="lt-hero-grid">
             <div className="lt-hero-left">
               <div className="lt-hero-tools">
-                <div className="lt-app-icon">
-                  <Icon name="store" size={28} />
-                </div>
+                <CategoryButton name={category.name} onClick={onOpenCategories} />
                 <ThemeToggle />
               </div>
               <div>
@@ -68,14 +71,9 @@ export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync
               </div>
             </div>
 
-            <div className="lt-summary">
-              <span className="lt-summary-k">Por contactar</span>
-              <span className="lt-summary-n">{pendingCount}</span>
-              <span className="lt-summary-l">
-                {pendingCount === 1 ? "negocio pendiente" : "negocios pendientes"}
-              </span>
+            <PendingSummary count={pendingCount} onOpen={onOpenPending}>
               {syncStatus && <SyncBadge status={syncStatus} onRetry={onRetrySync} />}
-            </div>
+            </PendingSummary>
           </div>
 
           <div className="lt-actions">
@@ -124,9 +122,9 @@ export default function LeadList({ leads, onOpen, onNew, syncStatus, onRetrySync
           </div>
 
           {visible.length === 0 ? (
-            <EmptyState title={leads.length === 0 ? "Aún no hay negocios" : "Ningún resultado"}>
+            <EmptyState title={leads.length === 0 ? `Aún no hay negocios en ${category.name}` : "Ningún resultado"}>
               {leads.length === 0
-                ? "Añade el primer local con su nombre y su dirección. Después podrás sumarle los campos que necesites."
+                ? "Añade el primer local de esta categoría con su nombre y su dirección. Después podrás sumarle los campos que necesites."
                 : "Prueba con otro término o quita el filtro de estado."}
             </EmptyState>
           ) : (

@@ -13,7 +13,7 @@
 
 .lt-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(148px, 180px);
+  grid-template-columns: minmax(0, 1fr) minmax(136px, 156px);
   gap: 14px;
 }
 

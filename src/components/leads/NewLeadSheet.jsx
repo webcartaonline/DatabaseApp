@@ -2,7 +2,7 @@ import { useState } from "react";
 import Sheet from "../ui/Sheet.jsx";
 
 /** Alta rapida: nombre y direccion, pensado para rellenar en la calle. */
-export default function NewLeadSheet({ onClose, onCreate }) {
+export default function NewLeadSheet({ categoryName, onClose, onCreate }) {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const isValid = name.trim().length > 0;
@@ -46,6 +46,10 @@ export default function NewLeadSheet({ onClose, onCreate }) {
         />
         <p className="lt-hint">Se guarda con un acceso directo a Google Maps.</p>
       </div>
+
+      <p className="lt-sheet-note">
+        Se guardará en la categoría <strong>{categoryName}</strong>.
+      </p>
 
       <button type="button" className="lt-btn lt-btn-primary lt-btn-full" disabled={!isValid} onClick={submit}>
         Guardar negocio

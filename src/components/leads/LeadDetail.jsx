@@ -2,15 +2,19 @@ import { useState } from "react";
 import { createField, findField, isFilled } from "../../lib/leads.js";
 import { formatDate } from "../../lib/format.js";
 import { mapsUrl } from "../../lib/links.js";
+import LeadCategorySelect from "../categories/LeadCategorySelect.jsx";
 import FieldRow from "../fields/FieldRow.jsx";
 import Icon from "../ui/Icon.jsx";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
 import NewFieldSheet from "./NewFieldSheet.jsx";
 
-/** Ficha completa de un negocio: nombre, campos y borrado. */
+/** Ficha completa de un negocio: nombre, categoria, campos y borrado. */
 export default function LeadDetail({
   lead,
+  categories,
+  categoryId,
   onBack,
+  onMoveToCategory,
   onRename,
   onAddField,
   onPatchField,
@@ -72,7 +76,9 @@ export default function LeadDetail({
 
       <main className="lt-stage">
         <div className="lt-shell">
-          <div className="lt-section-head">
+          <LeadCategorySelect categories={categories} value={categoryId} onChange={onMoveToCategory} />
+
+          <div className="lt-section-head lt-section">
             <h2 className="lt-section-title">Información</h2>
           </div>
 
