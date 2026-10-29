@@ -1,0 +1,273 @@
+/* Categorias: boton de la cabecera, tarjetas, formulario y pendientes. */
+
+/* Rectangulo de cristal que sustituye al antiguo icono de la cabecera. */
+.lt-category-btn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 12px 0 14px;
+  border-radius: 18px;
+  text-align: left;
+  color: var(--on-hero);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--glass-shadow);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.lt-category-btn:hover {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.1));
+}
+
+.lt-category-btn:active {
+  transform: scale(0.98);
+}
+
+.lt-category-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Contador de pendientes: el bloque de numeros es tocable. */
+.lt-summary-btn {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: -6px -8px 0;
+  padding: 6px 8px 4px;
+  border-radius: 14px;
+  transition: background 0.15s ease;
+}
+
+.lt-summary-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lt-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  color: var(--on-hero-muted);
+}
+
+/* Rejilla de tarjetas: 1 columna en movil, mas en pantallas grandes. */
+.lt-cat-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.lt-cat-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s ease;
+}
+
+.lt-cat-card.is-active {
+  box-shadow: var(--shadow), inset 0 0 0 2px var(--accent);
+}
+
+.lt-cat-select {
+  width: 100%;
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 58px 18px 18px;
+  border-radius: inherit;
+  text-align: left;
+  transition: transform 0.15s ease;
+}
+
+.lt-cat-select:active {
+  transform: scale(0.99);
+}
+
+.lt-cat-name {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.lt-cat-desc {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.lt-cat-flag {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  margin-top: 6px;
+  padding: 0 12px 0 10px;
+  border-radius: 999px;
+  background: var(--accent-grad);
+  color: var(--accent-fg);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lt-cat-edit {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--surface-2);
+}
+
+.lt-cat-new {
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: var(--radius-lg);
+  border: 1.5px dashed var(--border-strong);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.lt-cat-new:hover {
+  background: var(--surface-2);
+}
+
+.lt-cat-new .lt-ring {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1.5px var(--border-strong);
+}
+
+.lt-cat-form {
+  max-width: 520px;
+}
+
+.lt-hint.is-error {
+  color: var(--danger);
+}
+
+.lt-sheet-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.lt-sheet-note strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Pendientes por categoria. */
+.lt-pending {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.lt-pending-group {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.lt-pending-group.is-active {
+  box-shadow: var(--shadow), inset 0 0 0 2px var(--accent);
+}
+
+.lt-pending-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 2px 0 4px;
+}
+
+.lt-pending-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.lt-pending-count {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-grad);
+  color: var(--accent-fg);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.lt-pending-empty {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 8px 4px 2px;
+}
+
+.lt-pending-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lt-pending-item {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 14px;
+  border-radius: 16px;
+  background: var(--surface-2);
+  text-align: left;
+  font-size: 14.5px;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.lt-pending-item:hover {
+  background: var(--surface-3);
+}
+
+@media (min-width: 640px) {
+  .lt-cat-grid,
+  .lt-pending {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lt-cat-grid,
+  .lt-pending {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -1,11 +1,18 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import CategoryPicker from "./components/categories/CategoryPicker.jsx";
+import PendingOverview from "./components/categories/PendingOverview.jsx";
 import LeadDetail from "./components/leads/LeadDetail.jsx";
 import LeadList from "./components/leads/LeadList.jsx";
 import NewLeadSheet from "./components/leads/NewLeadSheet.jsx";
 import SyncGate from "./components/sync/SyncGate.jsx";
+import { categoryIdOf, createCategory, editCategory, leadsInCategory } from "./lib/categories.js";
 import { createLead } from "./lib/leads.js";
-import { useLeads } from "./state/useLeads.js";
+import { useActiveCategory } from "./state/useActiveCategory.js";
+import { useSyncedData } from "./state/useSyncedData.js";
 import { useSyncToken } from "./state/useSyncToken.js";
+
+/** Ventanas que se pueden abrir sobre el listado; solo una a la vez. */
+const DIALOGS = { newLead: "newLead", categories: "categories", pending: "pending" };
 
 /**
  * Une las dos vistas de la app. Solo hay dos pantallas, asi que la navegacion
@@ -13,11 +20,16 @@ import { useSyncToken } from "./state/useSyncToken.js";
  */
 export default function App() {
   const { token, saveToken, clearToken } = useSyncToken();
-  const { leads, ready, status, refresh, actions } = useLeads(token);
+  const { leads, categories, ready, status, refresh, actions } = useSyncedData(token);
+  const [activeCategory, setActiveCategoryId] = useActiveCategory(categories);
   const [selectedId, setSelectedId] = useState(null);
-  const [newLeadOpen, setNewLeadOpen] = useState(false);
+  const [dialog, setDialog] = useState(null);
 
   const selected = leads.find((lead) => lead.id === selectedId) || null;
+  const categoryLeads = useMemo(
+    () => leadsInCategory(leads, activeCategory.id),
+    [leads, activeCategory.id]
+  );
 
   // Si el negocio abierto desaparece, se vuelve al listado.
   useEffect(() => {
@@ -29,10 +41,12 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [selectedId]);
 
+  const closeDialog = useCallback(() => setDialog(null), []);
+
   const handleCreateLead = (name, address) => {
-    const lead = createLead(name, address);
+    const lead = createLead(name, address, activeCategory.id);
     actions.addLead(lead);
-    setNewLeadOpen(false);
+    closeDialog();
     setSelectedId(lead.id);
   };
 
@@ -40,6 +54,29 @@ export default function App() {
     const id = selectedId;
     setSelectedId(null);
     actions.deleteLead(id);
+  };
+
+  const handleSelectCategory = (id) => {
+    setActiveCategoryId(id);
+    closeDialog();
+  };
+
+  // Una categoria recien creada pasa a ser la actual.
+  const handleCreateCategory = (values) => {
+    const category = createCategory(values);
+    actions.saveCategory(category);
+    handleSelectCategory(category.id);
+  };
+
+  const handleUpdateCategory = (category, values) => {
+    actions.saveCategory(editCategory(category, values));
+  };
+
+  // Abrir un pendiente de otra categoria tambien cambia a esa categoria.
+  const handleOpenPendingLead = (lead) => {
+    setActiveCategoryId(categoryIdOf(lead));
+    closeDialog();
+    setSelectedId(lead.id);
   };
 
   if (!ready) return null;
@@ -70,15 +107,41 @@ export default function App() {
         />
       ) : (
         <LeadList
-          leads={leads}
+          leads={categoryLeads}
+          category={activeCategory}
           onOpen={setSelectedId}
-          onNew={() => setNewLeadOpen(true)}
+          onNew={() => setDialog(DIALOGS.newLead)}
+          onOpenCategories={() => setDialog(DIALOGS.categories)}
+          onOpenPending={() => setDialog(DIALOGS.pending)}
           syncStatus={token ? status : null}
           onRetrySync={status === "unauthorized" ? clearToken : refresh}
         />
       )}
 
-      {newLeadOpen && <NewLeadSheet onClose={() => setNewLeadOpen(false)} onCreate={handleCreateLead} />}
+      {dialog === DIALOGS.newLead && (
+        <NewLeadSheet categoryName={activeCategory.name} onClose={closeDialog} onCreate={handleCreateLead} />
+      )}
+
+      {dialog === DIALOGS.categories && (
+        <CategoryPicker
+          categories={categories}
+          activeId={activeCategory.id}
+          onSelect={handleSelectCategory}
+          onCreate={handleCreateCategory}
+          onUpdate={handleUpdateCategory}
+          onClose={closeDialog}
+        />
+      )}
+
+      {dialog === DIALOGS.pending && (
+        <PendingOverview
+          leads={leads}
+          categories={categories}
+          activeId={activeCategory.id}
+          onOpenLead={handleOpenPendingLead}
+          onClose={closeDialog}
+        />
+      )}
     </>
   );
 }

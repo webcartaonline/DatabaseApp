@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { closeOnBackdrop, useDismiss } from "../../hooks/useDismiss.js";
 import Icon from "./Icon.jsx";
 
 /**
@@ -6,28 +6,10 @@ import Icon from "./Icon.jsx";
  * Se cierra con Escape o tocando fuera, y bloquea el scroll de fondo.
  */
 export default function Sheet({ title, onClose, children }) {
-  useEffect(() => {
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") onClose();
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [onClose]);
+  useDismiss(onClose);
 
   return (
-    <div
-      className="lt-overlay"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
-    >
+    <div className="lt-overlay" onMouseDown={closeOnBackdrop(onClose)}>
       <div className="lt-sheet" role="dialog" aria-modal="true" aria-label={title}>
         <div className="lt-grab" />
         <div className="lt-sheet-head">

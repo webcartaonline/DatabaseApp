@@ -15,6 +15,7 @@ const ICONS = {
   ),
   moon: <path d="M20 14.4A8.5 8.5 0 0 1 9.6 4 8.5 8.5 0 1 0 20 14.4Z" />,
   back: <path d="m15 5-7 7 7 7" />,
+  next: <path d="m9 5 7 7-7 7" />,
   up: <path d="m6 14.5 6-6 6 6" />,
   down: <path d="m6 9.5 6 6 6-6" />,
   trash: <path d="M4 7h16M9.5 7V4.8h5V7M6.5 7l1 12.2h9l1-12.2" />,

@@ -1,30 +1,38 @@
-import { mergeLeads, pruneDeleted } from "../lib/sync.js";
+import { mergeData } from "../lib/sync.js";
 
 /** Toda la mutacion de datos vive aqui: una sola fuente de verdad. */
 
-export const initialLeadsState = { leads: [] };
+export const initialDataState = { leads: [], categories: [] };
 
-/** Aplica un cambio a un negocio y sella la fecha de modificacion. */
+/** Sella la fecha de modificacion: es lo que decide quien gana al sincronizar. */
+const stamp = (record) => ({ ...record, updatedAt: Date.now() });
+
+/** Aplica un cambio a un negocio. */
 const withLead = (state, id, update) => ({
-  leads: state.leads.map((lead) =>
-    lead.id === id ? { ...update(lead), updatedAt: Date.now() } : lead
-  ),
+  ...state,
+  leads: state.leads.map((lead) => (lead.id === id ? stamp(update(lead)) : lead)),
 });
 
-export function leadsReducer(state, action) {
+/** Sustituye el registro con el mismo id o lo anade al final. */
+const upsert = (list, record) =>
+  list.some((item) => item.id === record.id)
+    ? list.map((item) => (item.id === record.id ? record : item))
+    : [...list, record];
+
+export function dataReducer(state, action) {
   switch (action.type) {
     case "hydrate":
-      return { leads: pruneDeleted(mergeLeads([], action.leads)) };
+      return mergeData(initialDataState, action.data);
 
     // Fusiona lo que llega del servidor con lo que ya hay en memoria.
     case "merge":
-      return { leads: pruneDeleted(mergeLeads(state.leads, action.leads)) };
+      return mergeData(state, action.data);
 
     case "addLead":
-      return { leads: [action.lead, ...state.leads] };
+      return { ...state, leads: [action.lead, ...state.leads] };
 
     // Lapida en vez de borrado real: asi el borrado tambien viaja a los
-    // demas dispositivos quando se sincroniza.
+    // demas dispositivos cuando se sincroniza.
     case "deleteLead":
       return withLead(state, action.id, (lead) => ({
         id: lead.id,
@@ -66,6 +74,10 @@ export function leadsReducer(state, action) {
         fields.splice(to, 0, moved);
         return { ...lead, fields };
       });
+
+    // Crear y editar categorias es la misma operacion: guardar por id.
+    case "saveCategory":
+      return { ...state, categories: upsert(state.categories, stamp(action.category)) };
 
     default:
       return state;
