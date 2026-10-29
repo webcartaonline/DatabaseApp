@@ -40,6 +40,9 @@ export function dataReducer(state, action) {
         deletedAt: Date.now(),
       }));
 
+    case "moveLead":
+      return withLead(state, action.id, (lead) => ({ ...lead, categoryId: action.categoryId }));
+
     case "renameLead":
       return withLead(state, action.id, (lead) => ({ ...lead, name: action.name }));
 

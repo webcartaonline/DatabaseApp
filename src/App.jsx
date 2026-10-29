@@ -97,7 +97,10 @@ export default function App() {
       {selected ? (
         <LeadDetail
           lead={selected}
+          categories={categories}
+          categoryId={categoryIdOf(selected)}
           onBack={() => setSelectedId(null)}
+          onMoveToCategory={(categoryId) => actions.moveLead(selected.id, categoryId)}
           onRename={(name) => actions.renameLead(selected.id, name)}
           onAddField={(field) => actions.addField(selected.id, field)}
           onPatchField={(fieldId, patch) => actions.patchField(selected.id, fieldId, patch)}

@@ -100,6 +100,7 @@ export function useSyncedData(token) {
     () => ({
       addLead: (lead) => dispatch({ type: "addLead", lead }),
       deleteLead: (id) => dispatch({ type: "deleteLead", id }),
+      moveLead: (id, categoryId) => dispatch({ type: "moveLead", id, categoryId }),
       renameLead: (id, name) => dispatch({ type: "renameLead", id, name }),
       addField: (id, field) => dispatch({ type: "addField", id, field }),
       patchField: (id, fieldId, patch) => dispatch({ type: "patchField", id, fieldId, patch }),
